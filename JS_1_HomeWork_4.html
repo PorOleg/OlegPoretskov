@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Lesson 4 </title>
+</head>
+<body>
+	<script>
+		'use strict'
+	//Задание 1 
+		function min(a,b) {
+			if (a == b) {
+				alert('Числа равны'); 
+				return a;
+			}
+			else {
+				return ((a<b)?a:b);
+				}
+		}
+
+
+	// Задание 2
+		function countBs(string) {
+			var count = 0;
+			for (var i = 0; i < string.length; i++) {
+				if (string.toLowerCase().charAt(i) == 'b') { count++ }
+			}
+		return(count);
+		}
+
+
+	// Задание 2+
+		function countChar(string, char) {
+			var count = 0;
+			for (var i = 0; i < string.length; i++) {
+				if (string.toLowerCase().charAt(i) == char) { count++ }
+			}
+		return(count);
+		}
+
+		/*var str, a;
+		str = prompt("введите строку:");
+		a = prompt("введите букву:");
+		alert('Количество букв ' + a + ' - ' + countChar(str, a)); */
+
+
+	//Задание 3
+	function isEven(number) {
+		if (number < 0) {
+			number = Math.abs(number);
+		}
+		if (number == 0) {
+			return true;
+		}	
+		else { if (number == 1) {
+			 return false;
+			}
+				else {
+				return isEven(number-2);
+				}
+		}
+	} 
+
+
+	/*var n = prompt('введите число');
+	(isEven(n)) ? alert('Число четное') : alert('Число нечетное');*/
+   
+
+	</script>
+
+</body>
+</html>
