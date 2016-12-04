@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Lesson 5 </title>
+</head>
+<body>
+	<script>
+		'use strict';
+	//Задание_1 
+		function color_in_16(n1, n2, n3) {
+			function ten_to_16(n) {
+			return n > 15 ? n.toString(16).toUpperCase():'0' + n.toString(16).toUpperCase();
+			}
+			return '#' + ten_to_16(n1) +  ten_to_16(n2) + ten_to_16(n3);	  
+		}
+
+		/*var a=115, b=10, c=5;
+		console.log('Код цвета в 16-ричной системе: ' + color_in_16(a, b, c)); */
+
+	//Задание_2
+		function numtoobject(n) {
+			var obj = {};
+			if (n<0 || n>999) {
+				console.log('Число введено неправильно.');	
+			}
+				else {
+					obj.e = n % 100 % 10;
+					obj.d = (n % 100 - obj.e) / 10;
+					obj.h = (n - n % 100) / 100;
+				}
+			return obj;	
+		}
+
+		/*var m = 777;
+		var nobj = numtoobject(m);
+		console.log(nobj);
+		console.log('{ Единицы : ' + nobj.e + ', Десятки : ' + nobj.d + ', Сотни : ' + nobj.h + ' }');*/
+
+	//Задание 3
+		function objectToQueryString(object) {
+			var string = '';
+			Object.keys(object).map(function(item){string += '&' + item + '=' + object[item];})
+			return string.substr(1);
+		}
+
+		/*var obj =  {
+			user     : 'Dmitry',
+			password : 'pass',
+			id			 : 1
+		};
+		console.log(objectToQueryString(obj));*/
+		
+	</script>
+</body>
+</html>
