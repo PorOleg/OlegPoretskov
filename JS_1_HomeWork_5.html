@@ -40,14 +40,19 @@
 	//Задание 3
 		function objectToQueryString(object) {
 			var string = '';
-			Object.keys(object).map(function(item){string += '&' + item + '=' + object[item];})
+			Object.keys(object).map(function(item){string += '&' + item + '=' + object[item];});
 			return string.substr(1);
 		}
+	// Задание 3 (вариант 2)
+		function objectToQueryString(object) {
+			return Object.keys(object).map(function(item){return item + '=' + object[item];}).join('&');
+		}	
+
 
 		/*var obj =  {
 			user     : 'Dmitry',
 			password : 'pass',
-			id			 : 1
+			id		   : 1
 		};
 		console.log(objectToQueryString(obj));*/
 		
