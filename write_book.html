@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title> Практика </title>
+</head>
+<body>
+
+<script>
+		
+	function add_user(object) {
+		var user = {};
+		lastId++;
+		user.id = lastId;
+		user.firstName = prompt('Введите имя:');
+		user.lastName = prompt('Введите фамилию:');
+		user.birthDay = prompt('Дату рождения:');
+		user.phones = [];
+		var i = 0;
+		user.phones[i] = prompt('Номер телефона. Если нет, то нажмите клавишу ENTER:');
+		while (user.phones[i] != '') {
+			i++;
+			user.phones[i] = prompt('Другой номер телефона. Если нет, то нажмите клавишу ENTER:');
+		}
+		user.phones.splice(i,1);
+		object.push(user);
+	}	
+
+  function return_users(object) {
+  	object.forEach(function(item) {
+  		console.log('Имя: ' + item.firstName, ' Фамилия: ' + item.lastName, 
+	 		' Дата рождения: ' + item.birthDay, ' Телефоны: ' + item.phones.join(', ') + ';'); 
+  	});
+  }
+
+  function delete_user(object, id) {
+  	return object.filter(function(item) { return (item.id != id);});
+  }
+    
+  /*var users = [];
+  var lastId = 0;
+  var k = prompt('Количество человек');
+  for (var i = 0; i < k; i++) {	add_user(users); }
+  return_users(users);
+	var num = +prompt('Номер id для удаления:')
+  users = delete_user(users, num);
+  return_users(users);*/
+
+</script>	
+
+</body>
+</html>
+
+
+
+
+
