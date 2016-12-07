@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Полиндром </title>
+</head>
+<body>
+	<script>
+		function isPalindrome(str) {
+			str = str.toLowerCase().split('').filter(function(char) {return (char >= 'a' && char <= 'z');});
+			return str.join() == str.reverse().join();
+		}
+			var	string = 'A car, a man, a maraca.';
+			console.log(isPalindrome(string));
+	</script>		
+</body>
+</html>
