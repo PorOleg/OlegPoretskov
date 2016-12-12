@@ -6,12 +6,13 @@
 </head>
 <body>
 	<script>
-		function isPalindrome(str) {
-			str = str.toLowerCase().split('').filter(function(char) {return (char >= 'a' && char <= 'z');});
-			return str.join() == str.reverse().join();
+		
+		function isPalindrome(s) {
+		s=s.toLowerCase().match(/\w/g);return s.join()==s.reverse().join()
 		}
-			var	string = 'A car, a man, a maraca.';
-			console.log(isPalindrome(string));
+
+		var	string = 'A car, a man, a maraca.';
+		console.log(isPalindrome(string));
 	</script>		
 </body>
 </html>
