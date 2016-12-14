@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title> Lesson 6 </title>
+</head>
+<body>
+	<script>
+		'use strict';
+	//Задание_1 
+		function prepend (n, list) {
+			return {value:n, rest:list};
+		}
+
+		function arrayToList(arr) {
+			var list = {};
+			arr.reverse().forEach(function(item) {list = prepend(item, list)})
+			return list;
+		}
+
+		function nth(list, n) {
+			for (var i = 1; i < n; i++) {
+				list = list.rest;
+				if (!list) {return undefined;}
+			}
+				return list.value;
+		}
+
+		function listToArray(list) {
+			var arr = [];
+			while (nth(list, 1)) {
+				arr.push(nth(list, 1));
+				list = list.rest;
+			}
+			return arr;
+		}
+
+		var array = [1, 2, 3, 4, 'oleg', 'boris'];
+		console.log(arrayToList(array));
+		var lister = arrayToList(array);
+		console.log(lister);
+		console.log(nth(lister, 6));
+		console.log(listToArray(lister));
+
+	//Задание_2
+		function reverseArray(array) {
+			var arr = [];
+				array.forEach(function(item) { arr.unshift(item) });
+			return arr;
+			}
+
+		function reverseArrayInPlace(array) {
+			array.map(function(item, i) { array.unshift(item); array.splice(i+1, 1); });
+			return array;
+				}		
+
+			var arrays = [6, 5, 4, 3, 2, 1, 0];
+			console.log(reverseArray(arrays));
+			console.log(reverseArrayInPlace(arrays));
+
+	// Задание_3
+
+		function pick(obj, keys) {
+			var object = {};
+			keys.forEach(function(item) { if (obj[item]) {
+			Object.assign(object, {[item] : obj[item]}) }}); 
+			return object;
+		}
+
+		var user = {
+					    name: 'Sergey',
+					    age: 30,
+					    email: 'sergey@gmail.com',
+					    friends: ['Sveta', 'Artem']
+				};
+
+		console.log(pick(user, ['name'])); // {name: 'Sergey'}
+		console.log(pick(user, ['name', 'second-name'])); // {name: 'Sergey'}
+		console.log(pick(user, ['name', 'friends'])); // {name: 'Sergey', friends:['Sveta', 'Artem']}
+		
+
+	</script>
+</body>
+</html>
