@@ -1,109 +1,107 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<title> Lesson 7 </title>
-	<style>
-	  .classTd {											  /*Класс для ячеек основной доски*/
-	  	height: 50px; 
-	  	width: 50px;
-	  	text-align: center;
+  <meta charset="utf-8">
+  <title> Lesson 7 </title>
+  <style>
+    .classTd {                         /*Класс для ячеек основной доски*/
+      height: 50px; 
+      width: 50px;
+      text-align: center;
       border: 1px solid black;
       font-size: 40px;
-	  }
+    }
 
-	  .classWhite {										  /*Класс для белых ячеек*/
-	  	background: #ccc;
-	  }
+    .classWhite {                      /*Класс для белых ячеек*/
+      background: #ccc;
+    }
 
-	  .classBlack {											/*Класс для черных ячеек*/
-	  	background: #222;
-	  }
+    .classBlack {                      /*Класс для черных ячеек*/
+      background: #222;
+    }
 
-	  .classColorWhite {								 /*Класс для черных фигур*/
-	  	color: white;
-	  	font-weight: bold;
-	  }
+    .classColorWhite {                 /*Класс для черных фигур*/
+      color: white;
+      font-weight: bold;
+    }
 
-	  .classColorBlack {								 /*Класс для черных фигур*/
-	  	color: black;
-	  	font-weight: bold;
-	  }
+    .classColorBlack {                 /*Класс для черных фигур*/
+      color: black;
+      font-weight: bold;
+    }
 
-	  .upDownRow {											 /*Класс для верхнего и нижнего поля*/
-	  	height: 20px;
-	  	text-align: center;
-	  	background: lightyellow;
-	  }
+    .upDownRow {                       /*Класс для верхнего и нижнего поля*/
+      height: 20px;
+      text-align: center;
+      background: lightyellow;
+    }
 
-	  .firstLastTd {											/*Класс для левого и правого полей*/
-	  	width: 20px;
-	  	text-align: center;
-	  	background: lightyellow;
-	  }
+    .firstLastTd {                     /*Класс для левого и правого полей*/
+      width: 20px;
+      text-align: center;
+      background: lightyellow;
+    }
 
-	  .classTable {												/*Класс для таблицы*/
-	  	border: 2px solid black;
-		  border-collapse:	collapse;
-		  margin: 100px;	
-	  }
-
-	</style>
+    .classTable {                      /*Класс для таблицы*/
+      border: 2px solid black;
+      border-collapse:	collapse;
+      margin: 100px;	
+    }
+  </style>
 </head>
 <body>
 	
-	<script>
-		'use strict';
+  <script>
+    'use strict';
 
-		function upDownRow(n) {   									// Рисуем верхнюю и нижнюю строчки доски 
-			tr = document.createElement('tr');				// Создаем тег <tr></tr>
-		  for (var j = 0; j < n+2; j++) {						// Запускаем цикл для создания ячеек
-				  td = document.createElement('td');		// Создаем тег <td></td>
-				  td.innerHTML = char[j];								// Выводим внутри ячейки буквы для обозначения столбцов
-				  td.className = 'upDownRow';						// Присваиваем нужный класс для стилизации
-				  tr.appendChild(td);										// Выводим тег <td> как дочерний элемент для тега <tr>
-			  }																				// Конец цикла для создания ячеек в строке
-			  table.appendChild(tr);									// Выводим тег <tr> как дочерний элемент для тега <table>
-		}
+    function upDownRow(n) {                   // Рисуем верхнюю и нижнюю строчки доски 
+      tr = document.createElement('tr');      // Создаем тег <tr></tr>
+      for (var j = 0; j < n+2; j++) {         // Запускаем цикл для создания ячеек
+        td = document.createElement('td');    // Создаем тег <td></td>
+        td.innerHTML = char[j];               // Выводим внутри ячейки буквы для обозначения столбцов
+        td.className = 'upDownRow';           // Присваиваем нужный класс для стилизации
+        tr.appendChild(td);                   // Выводим тег <td> как дочерний элемент для тега <tr>
+      }                                       // Конец цикла для создания ячеек в строке
+      table.appendChild(tr);                  // Выводим тег <tr> как дочерний элемент для тега <table>
+    }
 
-		function firstLastTd(n, i) {								// Рисуем левое и правое поле доски с цифровым обозначением
-		  td = document.createElement('td');				// Создаем тег <td></td>
-			td.innerHTML = n-i;												// Выводим в ячейке номер ряда в обратном порядке
-			td.className = 'firstLastTd'							// Присваиваем нужный класс для стилизации
-			tr.appendChild(td);												// Выводим тег <td> как дочерний элемент для тега <tr>
-		}
+    function firstLastTd(n, i) {              // Рисуем левое и правое поле доски с цифровым обозначением
+      td = document.createElement('td');      // Создаем тег <td></td>
+      td.innerHTML = n-i;                     // Выводим в ячейке номер ряда в обратном порядке
+      td.className = 'firstLastTd'            // Присваиваем нужный класс для стилизации
+      tr.appendChild(td);	                    // Выводим тег <td> как дочерний элемент для тега <tr>
+    }
 
-		function drawShahMat(n) {																														// Функция генерирует шахматную доску размером n*n
-			table = document.createElement('table');																					// Cоздаем тег <table></table>
-			upDownRow(n);																																			// Рисуем верхнюю строчку доски 
-			for (var i = 0; i < n; i++) {																											// Запускаем цикл для создания строчек основной доски
-			tr = document.createElement('tr');																								// Создаем тег для строчек основной доски
-			  firstLastTd(n, i);																															// Рисуем первую ячейку с цифровым обозначением строки
-			  for (var j = 0; j < n; j++) {																										// Запускаем цикл для создания ячеек основной доски	
-				  td = document.createElement('td');																						// Создаем тег <td></td> для рисования ячеек
-				  td.className = 'classTd';																											// Присваиваем нужный класс для стилизации
-				  (i+j)%2 ? td.classList.add('classBlack') : td.classList.add('classWhite');		// Закрашиваем ячейки в шахматном порядке
-          if (i==n-2 || i==1) td.innerHTML = pawn;																			// Выводим в ячейки пешки	
-          if (i==n-1 || i==0) td.innerHTML = figer[j];																	// Выводим в ячейки шахматные фигуры
-          if (i==0 || i==1) td.classList.add('classColorWhite');												// Окрашиваем белые фигуры
-          if (i==n-2 || i==n-1) td.classList.add('classColorBlack');										// Окрашиваем черные фигуры 
-				  tr.appendChild(td);																														// Выводим тег <td> как дочерний элемент для тега <tr>
-			  }																																								// Конец цикла для создания ячеек в строке
-			  firstLastTd(n, i);																															// Рисуем крайнюю ячейку с цифровым обозначением строки
-			 	table.appendChild(tr);																													// Выводим тег <tr> как дочерний элемент для тега <table>
-		}																																										// Конец цикла для создания строчек основной доски
-			upDownRow(n);																																			// Рисуем нижнюю строчки доски 
-			document.body.appendChild(table);																									// Выводим тег <table> как дочерний элемент для тега <body>
-			table.className = 'classTable';																										// Присваиваем нужный класс для стилизации
-		}																																										// Конец функции
+    function drawShahMat(n) {                                                           // Функция генерирует шахматную доску размером n*n
+      table = document.createElement('table');                                          // Cоздаем тег <table></table>
+      upDownRow(n);                                                                     // Рисуем верхнюю строчку доски 
+      for (var i = 0; i < n; i++) {                                                     // Запускаем цикл для создания строчек основной доски
+        tr = document.createElement('tr');                                              // Создаем тег для строчек основной доски
+        firstLastTd(n, i);                                                              // Рисуем первую ячейку с цифровым обозначением строки
+        for (var j = 0; j < n; j++) {                                                   // Запускаем цикл для создания ячеек основной доски	
+          td = document.createElement('td');                                            // Создаем тег <td></td> для рисования ячеек
+          td.className = 'classTd';                                                     // Присваиваем нужный класс для стилизации
+          (i+j)%2 ? td.classList.add('classBlack') : td.classList.add('classWhite');    // Закрашиваем ячейки в шахматном порядке
+          if (i==n-2 || i==1) td.innerHTML = pawn;                                      // Выводим в ячейки пешки	
+          if (i==n-1 || i==0) td.innerHTML = figer[j];                                  // Выводим в ячейки шахматные фигуры
+          if (i==0 || i==1) td.classList.add('classColorWhite');                        // Окрашиваем белые фигуры
+          if (i==n-2 || i==n-1) td.classList.add('classColorBlack');                    // Окрашиваем черные фигуры 
+          tr.appendChild(td);                                                           // Выводим тег <td> как дочерний элемент для тега <tr>
+        }                                                                               // Конец цикла для создания ячеек в строке
+        firstLastTd(n, i);                                                              // Рисуем крайнюю ячейку с цифровым обозначением строки
+        table.appendChild(tr);                                                          // Выводим тег <tr> как дочерний элемент для тега <table>
+      }                                                                                 // Конец цикла для создания строчек основной доски
+      upDownRow(n);                                                                     // Рисуем нижнюю строчки доски 
+      document.body.appendChild(table);                                                 // Выводим тег <table> как дочерний элемент для тега <body>
+      table.className = 'classTable';                                                   // Присваиваем нужный класс для стилизации
+    }                                                                                   // Конец функции
 
-		var table, tr, td, char, figer, pawn, n; 
-		figer = ['&#9814;', '&#9816;', '&#9815;', '&#9813;', '&#9812;', '&#9815;', '&#9816;', '&#9814;'];  // Шахматные фигуры
-		pawn = '&#9817;';																																									 // Пешка 
-		char = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', ''];																					 // Обозначение столбцов на доске
-		n = 8;
-		drawShahMat(n);
-	
-	</script>
+    var table, tr, td, char, figer, pawn, n; 
+    figer = ['&#9814;', '&#9816;', '&#9815;', '&#9813;', '&#9812;', '&#9815;', '&#9816;', '&#9814;'];   // Шахматные фигуры
+    pawn = '&#9817;';                                                                                   // Пешка 
+    char = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', ''];                                            // Обозначение столбцов на доске
+    n = 8;
+    drawShahMat(n);
+  </script>
 </body>
 </html>
