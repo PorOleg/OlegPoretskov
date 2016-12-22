@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title> Lesson 8 </title>
+  <style>
+    .classTd {                         /*Класс для ячеек основной доски*/
+      height: 50px; 
+      width: 50px;
+      text-align: center;
+      border: 1px solid black;
+      font-size: 40px;
+    }
+
+    .classWhite {                      /*Класс для белых ячеек*/
+      background: #ccc;
+    }
+
+    .classBlack {                      /*Класс для черных ячеек*/
+      background: #222;
+    }
+
+    .classColorWhite {                 /*Класс для черных фигур*/
+      color: white;
+      font-weight: bold;
+    }
+
+    .classColorBlack {                 /*Класс для черных фигур*/
+      color: black;
+      font-weight: bold;
+    }
+
+    .upDownRow {                       /*Класс для верхнего и нижнего поля*/
+      height: 20px;
+      text-align: center;
+      background: lightyellow;
+    }
+
+    .firstLastTd {                     /*Класс для левого и правого полей*/
+      width: 20px;
+      text-align: center;
+      background: lightyellow;
+    }
+
+    .classTable {                      /*Класс для таблицы*/
+      border: 2px solid black;
+      border-collapse:	collapse;
+      margin: 50px auto 10px auto;	
+    }
+
+    .activeTd {                        /*Класс активности для выделения ячейки*/
+      outline: 2px solid blue;        
+    }
+
+    .classPrintCoord {                 /*Класс для раздела координат ячеек*/
+      font-size: 30px;
+      color: blue;
+      width: 50px;
+      height: 50px;
+      margin: 10px auto 10px auto;
+    }
+    .classDeleteWhite {                /*Класс для области удаленных белых фигур*/
+      background-color: #111;
+      width: 800px;
+      height: 60px;
+      margin: 10px auto 10px auto;
+      border: 2px solid blue;
+      font-size: 40px;
+      color: white;
+    }
+
+    .classDeleteBlack {                /*Класс для области удаленных черных фигур*/
+      background-color: #eee;
+      width: 800px;
+      height: 60px;
+      margin: 10px auto 10px auto;
+      border: 2px solid blue;
+      font-size: 40px;
+      color: black;
+    }
+
+    .classDivDelFig {                  /*Класс непосредственно для удаленных фигур*/
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+  </style>
+</head>
+<body>
+
+  <script>
+    'use strict';
+
+    function drawShahMat(n, char, figer, pawn) {                                        // Функция генерирует шахматную доску размером n*n
+      var table, tr, td;                                                                // Объявление переменных
+      function upDownRow(n) {                   // Рисуем верхнюю и нижнюю строчки доски 
+        tr = document.createElement('tr');      // Создаем тег <tr></tr>
+        for (var j = 0; j < n+2; j++) {         // Запускаем цикл для создания ячеек
+          td = document.createElement('td');    // Создаем тег <td></td>
+          td.innerHTML = char[j];               // Выводим внутри ячейки буквы для обозначения столбцов
+          td.className = 'upDownRow';           // Присваиваем нужный класс для стилизации
+          tr.appendChild(td);                   // Выводим тег <td> как дочерний элемент для тега <tr>
+        }                                       // Конец цикла для создания ячеек в строке
+        table.appendChild(tr);                  // Выводим тег <tr> как дочерний элемент для тега <table>
+      }
+
+      function firstLastTd(n, i) {              // Рисуем левое и правое поле доски с цифровым обозначением
+        td = document.createElement('td');      // Создаем тег <td></td>
+        td.innerHTML = n-i;                     // Выводим в ячейке номер ряда в обратном порядке
+        td.className = 'firstLastTd'            // Присваиваем нужный класс для стилизации
+        tr.appendChild(td);                     // Выводим тег <td> как дочерний элемент для тега <tr>
+      }
+
+      function printTd() {                                                        // Функция выводит координаты активной ячейки                     
+        var cells, coord, divs;                                                   // Объявляем переменные
+        divs = document.getElementsByClassName('classPrintCoord');                // Находим div для вывода координат
+        cells = document.getElementsByClassName('activeTd');                      // Создаем коллекцию с классом активной ячейки
+        coord = char[cells[0].cellIndex] + (n-cells[0].parentElement.rowIndex+1); // Находим ее координаты 
+        divs[0].innerHTML = coord;                                                // Выводим координаты на страницу
+      }
+
+      function activeTd () {                                  // Функция выделяет ячейку при клике на нее
+        var tds;                                              // Объявляем переменную для коллекции элементов с классом .borderTd
+        tds = document.getElementsByClassName('activeTd');    // Формируем коллекцию выделенных элементов
+        if (tds[0]) tds[0].classList.remove('activeTd');      // Если есть выделенные ячейки, то отменяем выделение
+        this.classList.add('activeTd');                       // Присваиваем класс для выделения ячейки на которой произошел клик
+        addEventListener('keydown', crossTd);                 // Навешивем первый обработчик события при нажатии клавиши - перемещение ячейки
+        addEventListener('keydown', printTd);                 // Навешивем второй обработчик события при нажатии - вывод координат ячейки
+      }
+
+      function crossTd(e) {                                   // Функция перемещения ячейки
+        var t = document.getElementsByClassName('activeTd');  // Находим активную ячейку
+        if (e.keyCode == 39) {                                // Проверяем какая клавиша нажата
+          if (t[0].cellIndex == n) {                          // Если крайняя ячейка активна
+            var tt = t[0].parentElement.cells[1];             // Находим крайнюю ячейку с другого конца 
+            t[0].classList.remove('activeTd');                // Удаляем класс активности у текущей ячейки
+            tt.classList.add('activeTd');                     // Добавляем класс активности найденной крайней ячейки
+          }
+            else {                                            // Иначе
+              t[0].nextSibling.classList.add('activeTd');     // Добавляем класс активности соседнему элементу
+              t[0].classList.remove('activeTd');              // Удаляем класс активности текущему элементу
+            }
+        }
+        if (e.keyCode == 37) {
+          if (t[0].cellIndex == 1) {
+            var tt = t[0].parentElement.cells[n];
+            t[0].classList.remove('activeTd');
+            tt.classList.add('activeTd');
+          }
+            else {
+              var tt = t[0].previousSibling;
+              t[0].classList.remove('activeTd');
+              tt.classList.add('activeTd');
+            }
+        }
+        if (e.keyCode == 40) {
+          var r = t[0].cellIndex;
+          if (t[0].parentElement.rowIndex == n) {
+            var tt = t[0].parentElement.parentElement.rows[1].cells[r];
+            t[0].classList.remove('activeTd');
+            tt.classList.add('activeTd');
+          }
+            else {
+              t[0].parentElement.nextSibling.cells[r].classList.add('activeTd');
+              t[0].classList.remove('activeTd');
+            }
+        }
+        if (e.keyCode == 38) {
+          var r = t[0].cellIndex;
+          if (t[0].parentElement.rowIndex == 1) {
+            var tt = t[0].parentElement.parentElement.rows[8].cells[r];
+            t[0].classList.remove('activeTd');
+            tt.classList.add('activeTd');
+          }
+            else {
+              var tt = t[0].parentElement.previousSibling;
+              t[0].classList.remove('activeTd');
+              tt.cells[r].classList.add('activeTd');
+            } 
+        }
+      }
+
+      function DeleteFigure() {                                 // Функция удаления фигур с доски
+        var divsDelete, deleteDiv, clName;                      // Объявляем переменные 
+        if (this.innerHTML) {                                   // Если есть фигура в ячейке, то действуем (иначе ничего не делаем)  
+          if (this.classList.contains('classColorWhite'))       // Если белая фигура, то
+            clName = 'classDeleteWhite';                        // будем удалять в область для удаленных белых фигур
+          else clName = 'classDeleteBlack';                     // иначе удаляем в область для удаленных черных фигур    
+        }
+        divsDelete = document.getElementsByClassName(clName);   // Находим область для удаления (для черных либо белых) фигур
+        deleteDiv = document.createElement('div');              // Создаем элемент div
+        deleteDiv.innerHTML = this.innerHTML;                   // Записываем туда фигуру
+        deleteDiv.r = this.parentElement.rowIndex;              // Запоминаем ее номер строки в таблице (для возврата на прежнее место)
+        deleteDiv.c = this.cellIndex;                           // Запоминаем ее номер столбца в таблице
+        deleteDiv.classList.add('classDivDelFig');              // Добавляем нужный класс для стилизации
+        deleteDiv.addEventListener('click', ReversFigure);      // Навешиваем событие при клике для возврата фигур
+        divsDelete[0].appendChild(deleteDiv);                   // Вставляем дочерним элементом в область для удаленных фигур
+        this.innerHTML = '';                                    // Удаляем содержимое ячейки
+      }                                                         // Конец функции 
+
+      function ReversFigure() {                                   // Функция для возврата фигур на прежнее место
+        var tab = document.getElementsByClassName('classTable');  // Находим элемент с классом нужной таблицы
+        var row = this.r;                                         // Находим ранее запомненные координаты строки
+        var cell = this.c;                                        // и столбца
+        tab[0].rows[row].cells[cell].innerHTML = this.innerHTML;  // Всталяем фигуру в таблицу 
+        this.remove();                                            // Удаляем элемент из области для удаленных фигур    
+      }                                                           // Конец функции
+
+      div = document.createElement('div');                                              // Создаем элемент div для для удаленных черных фигур
+      document.body.appendChild(div);                                                   // Встраиваем div в body 
+      div.classList.add('classDeleteBlack');                                            // Добавляем нужный класс
+      table = document.createElement('table');                                          // Cоздаем тег <table></table>
+      upDownRow(n);                                                                     // Рисуем верхнюю строчку доски 
+      for (var i = 0; i < n; i++) {                                                     // Запускаем цикл для создания строчек основной доски
+        tr = document.createElement('tr');                                              // Создаем тег для строчек основной доски
+        firstLastTd(n, i);                                                              // Рисуем первую ячейку с цифровым обозначением строки
+        for (var j = 0; j < n; j++) {                                                   // Запускаем цикл для создания ячеек основной доски	
+          td = document.createElement('td');                                            // Создаем тег <td></td> для рисования ячеек
+          td.className = 'classTd';                                                     // Присваиваем нужный класс для стилизации
+          (i+j)%2 ? td.classList.add('classBlack') : td.classList.add('classWhite');    // Закрашиваем ячейки в шахматном порядке
+          if (i==n-2 || i==1) td.innerHTML = pawn;                                      // Выводим в ячейки пешки	
+          if (i==n-1 || i==0) td.innerHTML = figer[j];                                  // Выводим в ячейки шахматные фигуры
+          if (i==n-2 || i==n-1) td.classList.add('classColorBlack');                    // Окрашиваем черные фигуры 
+          if (i==0 || i==1) td.classList.add('classColorWhite');                        // Окрашиваем белые фигуры
+          td.addEventListener('click', activeTd);                                       // Навешивем первый обработчик события при клике - выделение ячейки
+          td.addEventListener('click', printTd);                                        // Навешивем второй обработчик события при клике - вывод координат ячейки
+          td.addEventListener('click', DeleteFigure);                                   // Навешивем третий обработчик события при клике - удаление фигуры
+          tr.appendChild(td);                                                           // Выводим тег <td> как дочерний элемент для тега <tr>
+        }                                                                               // Конец цикла для создания ячеек в строке
+        firstLastTd(n, i);                                                              // Рисуем крайнюю ячейку с цифровым обозначением строки
+        table.appendChild(tr);                                                          // Выводим тег <tr> как дочерний элемент для тега <table>
+      }                                                                                 // Конец цикла для создания строчек основной доски
+      upDownRow(n);                                                                     // Рисуем нижнюю строчки доски 
+      document.body.appendChild(table);                                                 // Выводим тег <table> как дочерний элемент для тега <body>
+      table.className = 'classTable';                                                   // Присваиваем нужный класс для стилизации
+      var div = document.createElement('div');                                          // Создаем элемент div для вывода координат активной ячейки
+      document.body.appendChild(div);                                                   // Встраиваем div в body
+      div.classList.add('classPrintCoord');                                             // Добавляем нужный класс
+      div = document.createElement('div');                                              // Создаем элемент div для для удаленных фигур
+      document.body.appendChild(div);                                                   // Встраиваем div в body 
+      div.classList.add('classDeleteWhite');                                            // Добавляем нужный класс
+    }                                                                                   // Конец функции
+
+    var chars, figers, pawns, ns; 
+    figers = ['&#9814;', '&#9816;', '&#9815;', '&#9813;', '&#9812;', '&#9815;', '&#9816;', '&#9814;'];   // Шахматные фигуры
+    pawns = '&#9817;';                                                                                   // Пешка 
+    chars = ['', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', ''];                                            // Обозначение столбцов на доске
+    ns = 8;
+    drawShahMat(ns, chars, figers, pawns);
+  </script>
+</body>
+</html>
